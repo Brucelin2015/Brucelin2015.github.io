@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="swift3,IOS," />
+  <meta name="keywords" content="IOS,swift3," />
 
 
 
@@ -94,22 +94,22 @@
 
 
 <meta name="description" content="以前开始学习的时候，不知道怎么配置导航栏和TabBar的颜色，总是自定义一个View来代替TabBar，感觉很麻烦，就为了改变一下颜色，牺牲太大了。最近再次学习的时候，看到了这个方法，很实用，分享一下。 系统默认">
-<meta name="keywords" content="swift3,IOS">
+<meta name="keywords" content="IOS,swift3">
 <meta property="og:type" content="article">
 <meta property="og:title" content="IOS tabBar和navigationBar外观配置">
 <meta property="og:url" content="http://yoursite.com/2017/07/29/9.tabBar和navigationBar颜色设置/tabBar和navigationBar颜色设置/index.html">
 <meta property="og:site_name" content="BruceLin">
 <meta property="og:description" content="以前开始学习的时候，不知道怎么配置导航栏和TabBar的颜色，总是自定义一个View来代替TabBar，感觉很麻烦，就为了改变一下颜色，牺牲太大了。最近再次学习的时候，看到了这个方法，很实用，分享一下。 系统默认">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2017/07/29/9.tabBar和navigationBar颜色设置/tabBar和navigationBar颜色设置/tabBar和navigationBar颜色设置/1.png">
-<meta property="og:image" content="http://yoursite.com/2017/07/29/9.tabBar和navigationBar颜色设置/tabBar和navigationBar颜色设置/tabBar和navigationBar颜色设置/2.png">
-<meta property="og:image" content="http://yoursite.com/2017/07/29/9.tabBar和navigationBar颜色设置/tabBar和navigationBar颜色设置/tabBar和navigationBar颜色设置/3.png">
-<meta property="og:image" content="http://yoursite.com/2017/07/29/9.tabBar和navigationBar颜色设置/tabBar和navigationBar颜色设置/tabBar和navigationBar颜色设置/4.png">
-<meta property="og:updated_time" content="2017-07-21T14:18:56.000Z">
+<meta property="og:image" content="http://yoursite.com/2017/07/29/9.tabBar和navigationBar颜色设置/tabBar和navigationBar颜色设置/1.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/29/9.tabBar和navigationBar颜色设置/tabBar和navigationBar颜色设置/2.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/29/9.tabBar和navigationBar颜色设置/tabBar和navigationBar颜色设置/3.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/29/9.tabBar和navigationBar颜色设置/tabBar和navigationBar颜色设置/4.png">
+<meta property="og:updated_time" content="2017-07-29T04:23:35.990Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IOS tabBar和navigationBar外观配置">
 <meta name="twitter:description" content="以前开始学习的时候，不知道怎么配置导航栏和TabBar的颜色，总是自定义一个View来代替TabBar，感觉很麻烦，就为了改变一下颜色，牺牲太大了。最近再次学习的时候，看到了这个方法，很实用，分享一下。 系统默认">
-<meta name="twitter:image" content="http://yoursite.com/2017/07/29/9.tabBar和navigationBar颜色设置/tabBar和navigationBar颜色设置/tabBar和navigationBar颜色设置/1.png">
+<meta name="twitter:image" content="http://yoursite.com/2017/07/29/9.tabBar和navigationBar颜色设置/tabBar和navigationBar颜色设置/1.png">
 
 
 
@@ -339,13 +339,13 @@
 
       
         <p>以前开始学习的时候，不知道怎么配置导航栏和TabBar的颜色，总是自定义一个View来代替TabBar，感觉很麻烦，就为了改变一下颜色，牺牲太大了。最近再次学习的时候，看到了这个方法，很实用，分享一下。</p>
-<h3 id="系统默认"><a href="#系统默认" class="headerlink" title="系统默认"></a>系统默认</h3><p><img src="tabBar和navigationBar颜色设置/1.png" alt=""><br><a id="more"></a></p>
-<p><img src="tabBar和navigationBar颜色设置/2.png" alt=""></p>
+<h3 id="系统默认"><a href="#系统默认" class="headerlink" title="系统默认"></a>系统默认</h3><p><img src="/2017/07/29/9.tabBar和navigationBar颜色设置/tabBar和navigationBar颜色设置/1.png" alt=""><br><a id="more"></a></p>
+<p><img src="/2017/07/29/9.tabBar和navigationBar颜色设置/tabBar和navigationBar颜色设置/2.png" alt=""></p>
 <p>默认是蓝色的，如果你直接就设置tabBar的颜色的话，会和你想的不一样，系统会自动渲染，然后你再设置系统不渲染，反正最后的颜色和你想象的不太一样。</p>
 <h3 id="设置"><a href="#设置" class="headerlink" title="设置"></a>设置</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">application</span><span class="params">(<span class="number">_</span> application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?)</span></span> -&gt; <span class="type">Bool</span> &#123;</div><div class="line">    </div><div class="line">	<span class="comment">//全局配置写在delegate里面</span></div><div class="line">	<span class="comment">//设置tabBar的颜色</span></div><div class="line">	<span class="type">UITabBar</span>.appearance().tintColor = <span class="type">UIColor</span>.orange</div><div class="line">	<span class="type">UINavigationBar</span>.appearance().tintColor = <span class="type">UIColor</span>.orange</div><div class="line">	    </div><div class="line">	<span class="keyword">return</span> <span class="literal">true</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>全局配置的话，尽量写在APPDelegate里面。</p>
-<p>这样，设置的颜色就和你想设置的一样了，系统也不会自动渲染了。<br><img src="tabBar和navigationBar颜色设置/3.png" alt=""></p>
-<p><img src="tabBar和navigationBar颜色设置/4.png" alt=""></p>
+<p>这样，设置的颜色就和你想设置的一样了，系统也不会自动渲染了。<br><img src="/2017/07/29/9.tabBar和navigationBar颜色设置/tabBar和navigationBar颜色设置/3.png" alt=""></p>
+<p><img src="/2017/07/29/9.tabBar和navigationBar颜色设置/tabBar和navigationBar颜色设置/4.png" alt=""></p>
 
       
     </div>
@@ -375,9 +375,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/swift3/" rel="tag"># swift3</a>
-          
             <a href="/tags/IOS/" rel="tag"># IOS</a>
+          
+            <a href="/tags/swift3/" rel="tag"># swift3</a>
           
         </div>
       

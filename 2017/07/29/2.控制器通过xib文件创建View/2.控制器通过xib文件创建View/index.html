@@ -101,12 +101,12 @@
 <meta property="og:site_name" content="BruceLin">
 <meta property="og:description" content="官方文档 If you use a nib file to store your view controller’s view, it is recommended that you specify that nib file explicitly when initializing your view controller. However, if you do not specify a ni">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2017/07/29/2.控制器通过xib文件创建View/2.控制器通过xib文件创建View/2.控制器通过xib文件创建View/3.png">
-<meta property="og:updated_time" content="2017-07-21T14:33:12.000Z">
+<meta property="og:image" content="http://yoursite.com/2017/07/29/2.控制器通过xib文件创建View/2.控制器通过xib文件创建View/3.png">
+<meta property="og:updated_time" content="2017-07-29T04:19:29.163Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="控制器通过xib文件创建View">
 <meta name="twitter:description" content="官方文档 If you use a nib file to store your view controller’s view, it is recommended that you specify that nib file explicitly when initializing your view controller. However, if you do not specify a ni">
-<meta name="twitter:image" content="http://yoursite.com/2017/07/29/2.控制器通过xib文件创建View/2.控制器通过xib文件创建View/2.控制器通过xib文件创建View/3.png">
+<meta name="twitter:image" content="http://yoursite.com/2017/07/29/2.控制器通过xib文件创建View/2.控制器通过xib文件创建View/3.png">
 
 
 
@@ -368,7 +368,10 @@
 <h3 id="3-在AppDelegate里面"><a href="#3-在AppDelegate里面" class="headerlink" title="3.在AppDelegate里面"></a>3.在AppDelegate里面</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">window = <span class="type">UIWindow</span>(<span class="type">UIScreen</span>.mainScreen.bounds)</div><div class="line">    </div><div class="line"><span class="keyword">let</span> vc = <span class="type">MyViewController</span>(</div><div class="line">                nibName: <span class="string">"MyViewController"</span>, </div><div class="line">                bundle: <span class="literal">nil</span>)</div><div class="line">window?.rootViewController = vc </div><div class="line">    </div><div class="line">window?.makeKeyAndVisible()</div></pre></td></tr></table></figure>
 <h3 id="4-配置两个xib文件"><a href="#4-配置两个xib文件" class="headerlink" title="4.配置两个xib文件"></a>4.配置两个xib文件</h3><ul>
 <li><font size="4">我们需要配置的是xib文件里面的 <strong>File’s Owner</strong> 和 Owner的 <strong>view</strong> </font></li>
-<li>点击xib文件, 设置<strong>File’s Owner</strong> 的类 为 <strong>MyViewController</strong><br><img src="2.控制器通过xib文件创建View/3.png" alt="3.png"></li>
+<li>点击xib文件, 设置<strong>File’s Owner</strong> 的类 为 <strong>MyViewController</strong></li>
+</ul>
+<p><img src="/2017/07/29/2.控制器通过xib文件创建View/2.控制器通过xib文件创建View/3.png" alt="3.png"></p>
+<ul>
 <li><font size="4"> 点击 <strong>File’s Owner</strong> 将弹出的 <strong>Outlets</strong> 里面的 <strong>view</strong> 属性连接到 storyboard里面的View </font></li>
 <li><font size="4"> 两个xib文件同样配置(颜色要区分开来, 容易检查) </font>
 

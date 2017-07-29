@@ -101,15 +101,15 @@
 <meta property="og:site_name" content="BruceLin">
 <meta property="og:description" content="（本篇文章纯属转载，如有雷同，非常正常） 相信初接触到CALayer的人都会遇到以下几个问题：为什么修改anchorPoint会移动layer的位置？ CALayer的position点是哪一点呢? anchorPoint与position有什么关系?">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2017/07/29/6.anchorPoint和position/6_anchorPoint和position/6_anchorPoint和position/006fd7UGgy6Yub8vPg65a&690.png">
-<meta property="og:image" content="http://yoursite.com/2017/07/29/6.anchorPoint和position/6_anchorPoint和position/6_anchorPoint和position/006fd7UGgy6Yub9TfU8cc&690.png">
-<meta property="og:image" content="http://yoursite.com/2017/07/29/6.anchorPoint和position/6_anchorPoint和position/6_anchorPoint和position/006fd7UGgy6YubcDMc353&690.png">
-<meta property="og:image" content="http://yoursite.com/2017/07/29/6.anchorPoint和position/6_anchorPoint和position/6_anchorPoint和position/006fd7UGgy6YubdIiNmcc&690.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/29/6.anchorPoint和position/6_anchorPoint和position/006fd7UGgy6Yub8vPg65a&690.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/29/6.anchorPoint和position/6_anchorPoint和position/006fd7UGgy6Yub9TfU8cc&690.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/29/6.anchorPoint和position/6_anchorPoint和position/006fd7UGgy6YubcDMc353&690.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/29/6.anchorPoint和position/6_anchorPoint和position/006fd7UGgy6YubdIiNmcc&690.png">
 <meta property="og:updated_time" content="2017-07-21T14:22:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IOS详解之anchorPoint和Position">
 <meta name="twitter:description" content="（本篇文章纯属转载，如有雷同，非常正常） 相信初接触到CALayer的人都会遇到以下几个问题：为什么修改anchorPoint会移动layer的位置？ CALayer的position点是哪一点呢? anchorPoint与position有什么关系?">
-<meta name="twitter:image" content="http://yoursite.com/2017/07/29/6.anchorPoint和position/6_anchorPoint和position/6_anchorPoint和position/006fd7UGgy6Yub8vPg65a&690.png">
+<meta name="twitter:image" content="http://yoursite.com/2017/07/29/6.anchorPoint和position/6_anchorPoint和position/006fd7UGgy6Yub8vPg65a&690.png">
 
 
 
@@ -346,13 +346,13 @@
 </code></pre><h2 id="anchorPoint"><a href="#anchorPoint" class="headerlink" title="anchorPoint"></a>anchorPoint</h2><p>这里我们先来说说anchorPoint。</p>
 <p>想象一下，把一张A4白纸用图钉订在书桌上，如果订得不是很紧的话，白纸就可以沿顺时针或逆时针方向围绕图钉旋转，这时候图钉就起着支点的作用。我们要解释的 <strong>anchorPoint</strong> 就相当于白纸上的图钉，它主要的作用就是用来作为变换的支点，旋转就是一种变换，类似的还有平移、缩放。</p>
 <p>继续扩展，很明显，白纸的旋转形态随图钉的位置不同而不同，图钉订在白纸的正中间与左上角时分别造就了两种旋转形态，这是由图钉（anchorPoint）的位置决定的。如何衡量图钉（anchorPoint）在白纸中的位置呢？在iOS中，anchorPoint点的值是用一种相对bounds的比例值来确定的，在白纸的左上角、右下角，anchorPoint分为为(0,0), (1, 1)，也就是说anchorPoint是在单元坐标空间(同时也是左手坐标系)中定义的。类似地，可以得出在白纸的中心点、左下角和右上角的anchorPoint为(0.5,0.5), (0,1), (1,0)。</p>
-<p>看下面两张图：<br><img src="6_anchorPoint和position/006fd7UGgy6Yub8vPg65a&amp;690.png" alt=""></p>
+<p>看下面两张图：<br><img src="/2017/07/29/6.anchorPoint和position/6_anchorPoint和position/006fd7UGgy6Yub8vPg65a&amp;690.png" alt=""></p>
 <p>anchorPoint = CGPointMake(0.5, 0.5)</p>
-<p><img src="6_anchorPoint和position/006fd7UGgy6Yub9TfU8cc&amp;690.png" alt=""></p>
+<p><img src="/2017/07/29/6.anchorPoint和position/6_anchorPoint和position/006fd7UGgy6Yub9TfU8cc&amp;690.png" alt=""></p>
 <p>anchorPoint = CGPointMake(0.0, 0.0)</p>
 <p>然后执行旋转同样角度后的结果：</p>
-<p><img src="6_anchorPoint和position/006fd7UGgy6YubcDMc353&amp;690.png" alt=""></p>
-<p><img src="6_anchorPoint和position/006fd7UGgy6YubdIiNmcc&amp;690.png" alt=""></p>
+<p><img src="/2017/07/29/6.anchorPoint和position/6_anchorPoint和position/006fd7UGgy6YubcDMc353&amp;690.png" alt=""></p>
+<p><img src="/2017/07/29/6.anchorPoint和position/6_anchorPoint和position/006fd7UGgy6YubdIiNmcc&amp;690.png" alt=""></p>
 <h2 id="position"><a href="#position" class="headerlink" title="position"></a>position</h2><p>确切地说，position是layer中的anchorPoint点在superLayer中的位置坐标。因此可以说, position点是相对superLayer的，anchorPoint点是相对layer的，两者是相对不同的坐标空间的一个重合点。</p>
 <p>再来看看position的原始定义： The layer’s position in its superlayer’s coordinate space。 中文可以理解成为position是layer相对superLayer坐标空间的位置，很显然，这里的位置是根据anchorPoint来确定的.</p>
 <p>通过一个很小的例子就可以明白，position和anchorPoint的位置是重合的，只不过不是一个坐标系而已，自己做个小程序测试下就可以很清楚的了解。</p>
