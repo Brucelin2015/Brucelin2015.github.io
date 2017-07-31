@@ -257,7 +257,7 @@
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/29/5.自定义log/5.自定义log/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="chenglong">
+      <meta itemprop="name" content="布鲁斯·林">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.png">
     </span>
@@ -343,7 +343,7 @@
         <h3 id="自定义log"><a href="#自定义log" class="headerlink" title="自定义log"></a>自定义log</h3><p>今天在学习swift的时候，发现 print() 函数打印出来的信息真的很少，￼<img src="/2017/07/29/5.自定义log/5.自定义log/1.png" alt="print打印"></p>
 <p>这对于我们调试很不方便，看视频的时候教了一个方法来自定义log，记下来，以后省的忘记了。<br><a id="more"></a></p>
 <p>直接上代码</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">log</span>&lt;T&gt;<span class="params">(message: T, fileName: String = #file, lineNum: Int = #line, functionName: String = #function)</span></span> &#123;</div><div class="line">    </div><div class="line">    <span class="keyword">let</span> fileStr = (fileName <span class="keyword">as</span> <span class="type">NSString</span>).lastPathComponent</div><div class="line">    <span class="built_in">print</span>(<span class="string">"\(fileStr)(\(lineNum))--\(message)"</span>)</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">log</span>&lt;T&gt;<span class="params">(message: T, fileName: String = #file, lineNum: Int = #line, functionName: String = #function)</span></span> &#123;</div><div class="line">    </div><div class="line">    <span class="keyword">let</span> fileStr = (fileName <span class="keyword">as</span> <span class="type">NSString</span>).lastPathComponent</div><div class="line">    <span class="built_in">print</span>(<span class="string">"<span class="subst">\(fileStr)</span>(<span class="subst">\(lineNum)</span>)--<span class="subst">\(message)</span>"</span>)</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>上面的代码中有三处值得注意的地方</p>
 <ol>
 <li>log\<t>, 这个T，指的是泛型。T作为一个占位类型名来代替实际类型名，(如Int，String，Double)。占位类型名没有指明T必须是什么类型，简单点说，你准备输出的<strong>message</strong>是什么类型，<strong>T</strong>就是什么类型</t></li>
@@ -352,7 +352,7 @@
 </ol>
 <h3 id="全局输出"><a href="#全局输出" class="headerlink" title="全局输出"></a>全局输出</h3><p>如果你想要全局输出的话，把该函数直接放到AppDelegate的最下面，不让它在<strong>AppDelegate</strong>类里面就是全局函数了<br><img src="/2017/07/29/5.自定义log/5.自定义log/3.png" alt=""><br><img src="/2017/07/29/5.自定义log/5.自定义log/未命名.png" alt=""></p>
 <h3 id="DEBUG输出，Release不输出信息"><a href="#DEBUG输出，Release不输出信息" class="headerlink" title="DEBUG输出，Release不输出信息"></a>DEBUG输出，Release不输出信息</h3><p>当我们要发布项目的时候，不需要再输出信息了。我们可以这么做(尽管我还没有发布过任务产品)</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">#<span class="keyword">if</span> <span class="type">DEBUG</span></div><div class="line">    </div><div class="line"><span class="keyword">let</span> fileStr = (fileName <span class="keyword">as</span> <span class="type">NSString</span>).lastPathComponent</div><div class="line"><span class="built_in">print</span>(<span class="string">"\(fileStr)(\(lineNum))--\(message)"</span>)</div><div class="line">    </div><div class="line">#endif</div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">#<span class="keyword">if</span> <span class="type">DEBUG</span></div><div class="line">    </div><div class="line"><span class="keyword">let</span> fileStr = (fileName <span class="keyword">as</span> <span class="type">NSString</span>).lastPathComponent</div><div class="line"><span class="built_in">print</span>(<span class="string">"<span class="subst">\(fileStr)</span>(<span class="subst">\(lineNum)</span>)--<span class="subst">\(message)</span>"</span>)</div><div class="line">    </div><div class="line">#endif</div></pre></td></tr></table></figure>
 <p>想要测试发布状态，下图</p>
 <p><img src="/2017/07/29/5.自定义log/5.自定义log/9D5EF96F-8A72-41DC-BE08-769B173C93EA.png" alt=""></p>
 <p>点击<strong>Edit Scheme</strong></p>
@@ -475,8 +475,8 @@
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
-               alt="chenglong" />
-          <p class="site-author-name" itemprop="name">chenglong</p>
+               alt="布鲁斯·林" />
+          <p class="site-author-name" itemprop="name">布鲁斯·林</p>
            
               <p class="site-description motion-element" itemprop="description">今日事，今日毕；开始任务之前要明确流程，头脑要清晰，不盲目前进，谨记！！！</p>
           
@@ -486,7 +486,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -570,7 +570,7 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">chenglong</span>
+  <span class="author" itemprop="copyrightHolder">布鲁斯·林</span>
 </div>
 
 
