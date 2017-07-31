@@ -325,9 +325,7 @@
 <h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p> 根据上面的描述，我么可以将基于用户的协同过滤算法拆分为两个步骤：</p>
 <pre><code>1. 找到与目标用户兴趣相似的用户集合
 2. 找到这个集合中用户喜欢的、并且目标用户没有听说过的物品推荐给目标用户
-</code></pre><ol>
-<li><p>发现兴趣相似的用户</p>
-<pre><code>通常用 **Jaccard** 公式或者**余弦相似度**计算两个用户之间的相似度。设 N(u) 为用户 u 喜欢的物品集合，N(v) 为用户 v 喜欢的物品集合，那么 u 和 v 的相似度是多少呢：
+</code></pre><h3 id="发现兴趣相似的用户"><a href="#发现兴趣相似的用户" class="headerlink" title="发现兴趣相似的用户"></a>发现兴趣相似的用户</h3><pre><code>通常用 **Jaccard** 公式或者**余弦相似度**计算两个用户之间的相似度。设 N(u) 为用户 u 喜欢的物品集合，N(v) 为用户 v 喜欢的物品集合，那么 u 和 v 的相似度是多少呢：
 
 Jaccard公式：
 
@@ -354,96 +352,25 @@ Jaccard公式：
 ![用户相似度](基于用户的协同过滤推荐算法原理和实现\IMG_2394.jpg)
 
 到此，计算用户相似度就大功告成，可以很直观的找到与目标用户兴趣较相似的用户
-</code></pre></li>
-</ol>
-<ol>
-<li><p>推荐物品</p>
-<p> 首先需要从矩阵中找出与目标用户 u 最相似的 K 个用户，用集合 S(u, K) 表示，将 S 中用户喜欢的物品全部提取出来，并去除 u 已经喜欢的物品。对于每个候选物品 i ，用户 u 对它感兴趣的程度用如下公式计算：</p>
-<p> <img src="/2017/07/30/10.基于用户的协同过滤推荐算法原理和实现/基于用户的协同过滤推荐算法原理和实现/小Q截图-20170731000623.png" alt="推荐商品公式"></p>
-<p> 其中 rvi 表示用户 v 对 i 的喜欢程度，在本例中都是为 1，在一些需要用户给予评分的推荐系统中，则要代入用户评分。</p>
-<p> 举个例子，假设我们要给 A 推荐物品，选取 K = 3 个相似用户，相似用户则是：B、C、D，那么他们喜欢过并且 A 没有喜欢过的物品有：c、e，那么分别计算 p(A, c) 和 p(A, e)：</p>
-<p> <img src="/2017/07/30/10.基于用户的协同过滤推荐算法原理和实现/基于用户的协同过滤推荐算法原理和实现/小Q截图-20170731001156.png" alt="求推荐率"></p>
-<p> 看样子用户 A 对 c 和 e 的喜欢程度可能是一样的，在真实的推荐系统中，只要按得分排序，取前几个物品就可以了。</p>
-</li>
-</ol>
-<h2 id="实战准备"><a href="#实战准备" class="headerlink" title="实战准备"></a>实战准备</h2><p>我参考的两篇文章的实现都是下载了  <a href="https://grouplens.org/datasets/movielens" target="_blank" rel="external">movieLens</a> 的数据集，然后使用python进行数据的处理，我下载了源码，运行以后发现，不知道该怎么切换用户和产品，我现在水平还不够，对于那个数据集的一些概念不太懂，我就自己创建了几个数据，使用简单的小程序获取的推荐产品，结果和上面的分析一样，其实就是照着前面的步骤一步一步编写的。</p>
+</code></pre><h3 id="推荐物品"><a href="#推荐物品" class="headerlink" title="推荐物品"></a>推荐物品</h3><pre><code>首先需要从矩阵中找出与目标用户 u 最相似的 K 个用户，用集合 S(u, K) 表示，将 S 中用户喜欢的物品全部提取出来，并去除 u 已经喜欢的物品。对于每个候选物品 i ，用户 u 对它感兴趣的程度用如下公式计算：
+
+![推荐商品公式](基于用户的协同过滤推荐算法原理和实现\小Q截图-20170731000623.png)
+
+其中 rvi 表示用户 v 对 i 的喜欢程度，在本例中都是为 1，在一些需要用户给予评分的推荐系统中，则要代入用户评分。
+
+举个例子，假设我们要给 A 推荐物品，选取 K = 3 个相似用户，相似用户则是：B、C、D，那么他们喜欢过并且 A 没有喜欢过的物品有：c、e，那么分别计算 p(A, c) 和 p(A, e)：
+
+![求推荐率](基于用户的协同过滤推荐算法原理和实现\小Q截图-20170731001156.png)
+
+看样子用户 A 对 c 和 e 的喜欢程度可能是一样的，在真实的推荐系统中，只要按得分排序，取前几个物品就可以了。
+</code></pre><h2 id="实战准备"><a href="#实战准备" class="headerlink" title="实战准备"></a>实战准备</h2><p>我参考的两篇文章的实现都是下载了  <a href="https://grouplens.org/datasets/movielens" target="_blank" rel="external">movieLens</a> 的数据集，然后使用python进行数据的处理，我下载了源码，运行以后发现，不知道该怎么切换用户和产品，我现在水平还不够，对于那个数据集的一些概念不太懂，我就自己创建了几个数据，使用简单的小程序获取的推荐产品，结果和上面的分析一样，其实就是照着前面的步骤一步一步编写的。</p>
 <p>水平太次，只能实用一些简单的数据来理解这个算法，大神勿喷。</p>
-<h2 id="实战开始"><a href="#实战开始" class="headerlink" title="实战开始"></a>实战开始</h2><h4 id="1-给出用户集"><a href="#1-给出用户集" class="headerlink" title="1. 给出用户集"></a>1. 给出用户集</h4><pre><code>users = [[&apos;macbook&apos;, &apos;iphone&apos;, &apos;beats&apos;, &apos;keyboard&apos;, &apos;game&apos;, &apos;snack&apos;], 
-         [&apos;macbook&apos;, &apos;book&apos;, &apos;beats&apos;, &apos;snack&apos;, &apos;cloth&apos;],
-         [&apos;book&apos;, &apos;beats&apos;, &apos;iphone&apos;],
-         [&apos;cloth&apos;, &apos;bag&apos;, &apos;cosmetics&apos;, &apos;snack&apos;], 
-         [&apos;iphone&apos;, &apos;game&apos;, &apos;macbook&apos;, &apos;beats&apos;, &apos;cloth&apos;],
-         [&apos;iphone&apos;, &apos;beats&apos;, &apos;keyboard&apos;, &apos;movie&apos;],
-         [&apos;movie&apos;, &apos;game&apos;, &apos;bag&apos;, &apos;snack&apos;]]
-</code></pre><h4 id="2-相似余弦距离公式"><a href="#2-相似余弦距离公式" class="headerlink" title="2. 相似余弦距离公式"></a>2. 相似余弦距离公式</h4><pre><code>相似余弦距离（使用余弦相似度公式）
-输入：用户1， 用户2
-输出： 两个用户的余弦距离
-
-def calcSimlaryCosDist(user1, user2):
-    molecule = 0
-    for good_1 in user1:
-        for good_2 in user2:
-            if good_1 == good_2:
-                molecule += 1
-
-    deno = len(user1) * len(user2)
-    deno = math.sqrt(deno)
-    return molecule / deno
-</code></pre><h4 id="3-计算与用户最相似的邻居列表，和目标用户有类似的爱好的邻居用户"><a href="#3-计算与用户最相似的邻居列表，和目标用户有类似的爱好的邻居用户" class="headerlink" title="3. 计算与用户最相似的邻居列表，和目标用户有类似的爱好的邻居用户"></a>3. 计算与用户最相似的邻居列表，和目标用户有类似的爱好的邻居用户</h4><pre><code>计算与指定用户最相近的邻居
-输入：目标用户id，所有邻居id
-输出：排列好的、与目标用户最相近的邻居列表
-
-def calcNearestNeighbor(targetUserID, neighbours):
-
-    neighbours_list = []
-    for neighbour in neighbours:
-        dist = calcSimlaryCosDist(users[targetUserID], neighbour)
-        neighbours_list.append([dist, neighbour])
-
-    return sorted(neighbours_list, reverse=True)
-</code></pre><h4 id="4-有了邻居列表，我们就可以找出邻居喜欢的所有物品并且恰好目标用户不知道的物品，找到后推荐给目标用户"><a href="#4-有了邻居列表，我们就可以找出邻居喜欢的所有物品并且恰好目标用户不知道的物品，找到后推荐给目标用户" class="headerlink" title="4. 有了邻居列表，我们就可以找出邻居喜欢的所有物品并且恰好目标用户不知道的物品，找到后推荐给目标用户"></a>4. 有了邻居列表，我们就可以找出邻居喜欢的所有物品并且恰好目标用户不知道的物品，找到后推荐给目标用户</h4><pre><code>获取待推荐的所有物品的列表
-输入：目标用户ID，与目标用户最相近的邻居列表
-输出： 待推荐的用户列表
-def getPreRecommend_goodList(targetUserID, nearestNeighbours):
-
-    pre_recommend_good_list = []
-
-    isAppend = False
-
-    for tempItem in nearestNeighbours:
-        item = tempItem[1]
-        for pre_recommend_good in item:
-            for good in users[targetUserID]:
-                if (pre_recommend_good == good) or (pre_recommend_good in pre_recommend_good_list):
-                    isAppend = False
-                    break
-                else:
-                    isAppend = True
-
-            //等到待推荐的某个物品和目标用户的所有物品对比后符合再添加到列表中
-            //否则直接进行下一轮循环
-            if isAppend:
-                pre_recommend_good_list.append(pre_recommend_good)
-
-
-    return pre_recommend_good_list    
-</code></pre><h4 id="5-上面的结果就是准备推荐给目标用户的商品，如果没有特殊的需要，直接就可以把上面的所有物品推送给目标用户。这种方法毕竟适合少数情况，通常我们还需要算出目标用户对每个商品的具体喜好程度，我们这里用推荐率来表示。"><a href="#5-上面的结果就是准备推荐给目标用户的商品，如果没有特殊的需要，直接就可以把上面的所有物品推送给目标用户。这种方法毕竟适合少数情况，通常我们还需要算出目标用户对每个商品的具体喜好程度，我们这里用推荐率来表示。" class="headerlink" title="5. 上面的结果就是准备推荐给目标用户的商品，如果没有特殊的需要，直接就可以把上面的所有物品推送给目标用户。这种方法毕竟适合少数情况，通常我们还需要算出目标用户对每个商品的具体喜好程度，我们这里用推荐率来表示。"></a>5. 上面的结果就是准备推荐给目标用户的商品，如果没有特殊的需要，直接就可以把上面的所有物品推送给目标用户。这种方法毕竟适合少数情况，通常我们还需要算出目标用户对每个商品的具体喜好程度，我们这里用推荐率来表示。</h4><pre><code>//计算每个商品对目标用户的推荐率
-//输入：相似邻居列表， 待推荐商品
-//输出：商品的推荐率
-def getRecommendRate(nearestNeighbours, recommend_good_list):
-    recommend_rate_list = []
-    for recommend_good in recommend_good_list:
-        result = 0
-        for neighbour in nearestNeighbours:
-            item = neighbour[1]
-            for good in item:
-                if recommend_good == good:
-                    result += neighbour[0]
-                    break
-        recommend_rate_list.append(result)
-
-    return sorted(recommend_rate_list, reverse=True)
-</code></pre><h4 id="6-结果"><a href="#6-结果" class="headerlink" title="6. 结果"></a>6. 结果</h4><p><img src="/2017/07/30/10.基于用户的协同过滤推荐算法原理和实现/基于用户的协同过滤推荐算法原理和实现/小Q截图-20170731004148.png" alt="结果"></p>
+<h2 id="实战开始"><a href="#实战开始" class="headerlink" title="实战开始"></a>实战开始</h2><h4 id="1-给出用户集"><a href="#1-给出用户集" class="headerlink" title="1. 给出用户集"></a>1. 给出用户集</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">users = [[<span class="string">'macbook'</span>, <span class="string">'iphone'</span>, <span class="string">'beats'</span>, <span class="string">'keyboard'</span>, <span class="string">'game'</span>, <span class="string">'snack'</span>], </div><div class="line">		 [<span class="string">'macbook'</span>, <span class="string">'book'</span>, <span class="string">'beats'</span>, <span class="string">'snack'</span>, <span class="string">'cloth'</span>],</div><div class="line">		 [<span class="string">'book'</span>, <span class="string">'beats'</span>, <span class="string">'iphone'</span>],</div><div class="line">		 [<span class="string">'cloth'</span>, <span class="string">'bag'</span>, <span class="string">'cosmetics'</span>, <span class="string">'snack'</span>], </div><div class="line">		 [<span class="string">'iphone'</span>, <span class="string">'game'</span>, <span class="string">'macbook'</span>, <span class="string">'beats'</span>, <span class="string">'cloth'</span>],</div><div class="line">		 [<span class="string">'iphone'</span>, <span class="string">'beats'</span>, <span class="string">'keyboard'</span>, <span class="string">'movie'</span>],</div><div class="line">		 [<span class="string">'movie'</span>, <span class="string">'game'</span>, <span class="string">'bag'</span>, <span class="string">'snack'</span>]]</div></pre></td></tr></table></figure>
+<h4 id="2-相似余弦距离公式"><a href="#2-相似余弦距离公式" class="headerlink" title="2. 相似余弦距离公式"></a>2. 相似余弦距离公式</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 相似余弦距离（使用余弦相似度公式）</span></div><div class="line"><span class="comment"># 输入：用户1， 用户2</span></div><div class="line"><span class="comment"># 输出： 两个用户的余弦距离</span></div><div class="line"> </div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">calcSimlaryCosDist</span><span class="params">(user1, user2)</span>:</span></div><div class="line">	molecule = <span class="number">0</span></div><div class="line">	<span class="keyword">for</span> good_1 <span class="keyword">in</span> user1:</div><div class="line">		<span class="keyword">for</span> good_2 <span class="keyword">in</span> user2:</div><div class="line">			<span class="keyword">if</span> good_1 == good_2:</div><div class="line">				molecule += <span class="number">1</span></div><div class="line"></div><div class="line">	deno = len(user1) * len(user2)</div><div class="line">	deno = math.sqrt(deno)</div><div class="line">	<span class="keyword">return</span> molecule / deno</div></pre></td></tr></table></figure>
+<h4 id="3-计算与用户最相似的邻居列表，和目标用户有类似的爱好的邻居用户"><a href="#3-计算与用户最相似的邻居列表，和目标用户有类似的爱好的邻居用户" class="headerlink" title="3. 计算与用户最相似的邻居列表，和目标用户有类似的爱好的邻居用户"></a>3. 计算与用户最相似的邻居列表，和目标用户有类似的爱好的邻居用户</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#计算与指定用户最相近的邻居</span></div><div class="line"><span class="comment">#输入：目标用户id，所有邻居id</span></div><div class="line"><span class="comment">#输出：排列好的、与目标用户最相近的邻居列表</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">calcNearestNeighbor</span><span class="params">(targetUserID, neighbours)</span>:</span></div><div class="line"></div><div class="line">	neighbours_list = []</div><div class="line">	<span class="keyword">for</span> neighbour <span class="keyword">in</span> neighbours:</div><div class="line">		dist = calcSimlaryCosDist(users[targetUserID], neighbour)</div><div class="line">		neighbours_list.append([dist, neighbour])</div><div class="line">	</div><div class="line">	<span class="keyword">return</span> sorted(neighbours_list, reverse=<span class="keyword">True</span>)</div></pre></td></tr></table></figure>
+<h4 id="4-有了邻居列表，我们就可以找出邻居喜欢的所有物品并且恰好目标用户不知道的物品，找到后推荐给目标用户"><a href="#4-有了邻居列表，我们就可以找出邻居喜欢的所有物品并且恰好目标用户不知道的物品，找到后推荐给目标用户" class="headerlink" title="4. 有了邻居列表，我们就可以找出邻居喜欢的所有物品并且恰好目标用户不知道的物品，找到后推荐给目标用户"></a>4. 有了邻居列表，我们就可以找出邻居喜欢的所有物品并且恰好目标用户不知道的物品，找到后推荐给目标用户</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 获取待推荐的所有物品的列表</span></div><div class="line"><span class="comment"># 输入：目标用户ID，与目标用户最相近的邻居列表</span></div><div class="line"><span class="comment"># 输出： 待推荐的用户列表</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">getPreRecommend_goodList</span><span class="params">(targetUserID, nearestNeighbours)</span>:</span></div><div class="line"></div><div class="line">	pre_recommend_good_list = []</div><div class="line"></div><div class="line">	isAppend = <span class="keyword">False</span></div><div class="line"></div><div class="line">	<span class="keyword">for</span> tempItem <span class="keyword">in</span> nearestNeighbours:</div><div class="line">		item = tempItem[<span class="number">1</span>]</div><div class="line">		<span class="keyword">for</span> pre_recommend_good <span class="keyword">in</span> item:</div><div class="line">			<span class="keyword">for</span> good <span class="keyword">in</span> users[targetUserID]:</div><div class="line">				<span class="keyword">if</span> (pre_recommend_good == good) <span class="keyword">or</span> (pre_recommend_good <span class="keyword">in</span> pre_recommend_good_list):</div><div class="line">					isAppend = <span class="keyword">False</span></div><div class="line">					<span class="keyword">break</span></div><div class="line">				<span class="keyword">else</span>:</div><div class="line">					isAppend = <span class="keyword">True</span></div><div class="line"></div><div class="line">			<span class="comment">#等到待推荐的某个物品和目标用户的所有物品对比后符合再添加到列表中</span></div><div class="line">			<span class="comment">#否则直接进行下一轮循环</span></div><div class="line">			<span class="keyword">if</span> isAppend:</div><div class="line">				pre_recommend_good_list.append(pre_recommend_good)</div><div class="line"></div><div class="line"></div><div class="line">	<span class="keyword">return</span> pre_recommend_good_list</div></pre></td></tr></table></figure>
+<h4 id="5-上面的结果就是准备推荐给目标用户的商品，如果没有特殊的需要，直接就可以把上面的所有物品推送给目标用户。这种方法毕竟适合少数情况，通常我们还需要算出目标用户对每个商品的具体喜好程度，我们这里用推荐率来表示。"><a href="#5-上面的结果就是准备推荐给目标用户的商品，如果没有特殊的需要，直接就可以把上面的所有物品推送给目标用户。这种方法毕竟适合少数情况，通常我们还需要算出目标用户对每个商品的具体喜好程度，我们这里用推荐率来表示。" class="headerlink" title="5. 上面的结果就是准备推荐给目标用户的商品，如果没有特殊的需要，直接就可以把上面的所有物品推送给目标用户。这种方法毕竟适合少数情况，通常我们还需要算出目标用户对每个商品的具体喜好程度，我们这里用推荐率来表示。"></a>5. 上面的结果就是准备推荐给目标用户的商品，如果没有特殊的需要，直接就可以把上面的所有物品推送给目标用户。这种方法毕竟适合少数情况，通常我们还需要算出目标用户对每个商品的具体喜好程度，我们这里用推荐率来表示。</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#计算每个商品对目标用户的推荐率</span></div><div class="line"><span class="comment">#输入：相似邻居列表， 待推荐商品</span></div><div class="line"><span class="comment">#输出：商品的推荐率</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">getRecommendRate</span><span class="params">(nearestNeighbours, recommend_good_list)</span>:</span></div><div class="line">	recommend_rate_list = []</div><div class="line">	<span class="keyword">for</span> recommend_good <span class="keyword">in</span> recommend_good_list:</div><div class="line">		result = <span class="number">0</span></div><div class="line">		<span class="keyword">for</span> neighbour <span class="keyword">in</span> nearestNeighbours:</div><div class="line">			item = neighbour[<span class="number">1</span>]</div><div class="line">			<span class="keyword">for</span> good <span class="keyword">in</span> item:</div><div class="line">				<span class="keyword">if</span> recommend_good == good:</div><div class="line">					result += neighbour[<span class="number">0</span>]</div><div class="line">					<span class="keyword">break</span></div><div class="line">		recommend_rate_list.append(result)</div><div class="line"></div><div class="line">	<span class="keyword">return</span> sorted(recommend_rate_list, reverse=<span class="keyword">True</span>)</div></pre></td></tr></table></figure>
+<h4 id="6-结果"><a href="#6-结果" class="headerlink" title="6. 结果"></a>6. 结果</h4><p><img src="/2017/07/30/10.基于用户的协同过滤推荐算法原理和实现/基于用户的协同过滤推荐算法原理和实现/小Q截图-20170731004148.png" alt="结果"></p>
 <p>根据上面的结果显示，对于目标用户，他喜欢衣服的可能性会更大一些，其次是书，最后是电影，可以将这个最终的列表按照需要进行排序，然后推荐给目标用户，或者都直接推荐给目标用户也可以。</p>
 <h4 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h4><ol>
 <li><p><a href="http://blog.csdn.net/ygrx/article/details/15501679" target="_blank" rel="external">[推荐算法]基于用户的协同过滤算法</a></p>
