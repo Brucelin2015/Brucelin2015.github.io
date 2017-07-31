@@ -100,12 +100,20 @@
 <meta property="og:site_name" content="BruceLin">
 <meta property="og:description" content="推荐算法概要推荐算法最早在1992年就提出来了，但是火起来实际上是最近这些年的事情，因为互联网的爆发，有了更大的数据量可以供我们使用，推荐算法才有了很大的用武之地。 最开始，所以我们在网上找资料，都是进yahoo，然后分门别类的点进去，找到你想要的东西，这是一个人工过程，到后来，我们用google，直接搜索自己需要的内容，这些都可以比较精准的找到你想要的东西，但是，如果我自己都不知道自己要找什么肿">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2017/07/30/10.基于用户的协同过滤推荐算法原理和实现/基于用户的协同过滤推荐算法原理和实现/小Q截图-20170730232605.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/30/10.基于用户的协同过滤推荐算法原理和实现/基于用户的协同过滤推荐算法原理和实现/小Q截图-20170730233206.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/30/10.基于用户的协同过滤推荐算法原理和实现/基于用户的协同过滤推荐算法原理和实现/IMG_2391.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/07/30/10.基于用户的协同过滤推荐算法原理和实现/基于用户的协同过滤推荐算法原理和实现/IMG_2392.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/07/30/10.基于用户的协同过滤推荐算法原理和实现/基于用户的协同过滤推荐算法原理和实现/01D6C77983F157E510F05679E273429B.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/30/10.基于用户的协同过滤推荐算法原理和实现/基于用户的协同过滤推荐算法原理和实现/IMG_2394.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/07/30/10.基于用户的协同过滤推荐算法原理和实现/基于用户的协同过滤推荐算法原理和实现/小Q截图-20170731000623.png">
+<meta property="og:image" content="http://yoursite.com/2017/07/30/10.基于用户的协同过滤推荐算法原理和实现/基于用户的协同过滤推荐算法原理和实现/小Q截图-20170731001156.png">
 <meta property="og:image" content="http://yoursite.com/2017/07/30/10.基于用户的协同过滤推荐算法原理和实现/基于用户的协同过滤推荐算法原理和实现/小Q截图-20170731004148.png">
-<meta property="og:updated_time" content="2017-07-31T06:04:16.689Z">
+<meta property="og:updated_time" content="2017-07-31T06:10:31.664Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="BruceLin">
 <meta name="twitter:description" content="推荐算法概要推荐算法最早在1992年就提出来了，但是火起来实际上是最近这些年的事情，因为互联网的爆发，有了更大的数据量可以供我们使用，推荐算法才有了很大的用武之地。 最开始，所以我们在网上找资料，都是进yahoo，然后分门别类的点进去，找到你想要的东西，这是一个人工过程，到后来，我们用google，直接搜索自己需要的内容，这些都可以比较精准的找到你想要的东西，但是，如果我自己都不知道自己要找什么肿">
-<meta name="twitter:image" content="http://yoursite.com/2017/07/30/10.基于用户的协同过滤推荐算法原理和实现/基于用户的协同过滤推荐算法原理和实现/小Q截图-20170731004148.png">
+<meta name="twitter:image" content="http://yoursite.com/2017/07/30/10.基于用户的协同过滤推荐算法原理和实现/基于用户的协同过滤推荐算法原理和实现/小Q截图-20170730232605.png">
 
 
 
@@ -316,51 +324,34 @@
 <p>最开始，所以我们在网上找资料，都是进yahoo，然后分门别类的点进去，找到你想要的东西，这是一个人工过程，到后来，我们用google，直接搜索自己需要的内容，这些都可以比较精准的找到你想要的东西，但是，如果我自己都不知道自己要找什么肿么办？最典型的例子就是，如果我打开豆瓣找电影，或者我去买说，我实际上不知道我想要买什么或者看什么，这时候推荐系统就可以派上用场了。</p>
 <hr>
 <p>本文通过朋友之间浏览过的物品来向目标用户推荐一些商品，一步一步跟着文章走，你一定会明白的。</p>
+<a id="more"></a>
 <h2 id="基本思想"><a href="#基本思想" class="headerlink" title="基本思想"></a>基本思想</h2><p>俗话说“物以类聚、人以群分”，拿看电影这个例子来说，如果你喜欢《蝙蝠侠》、《碟中谍》、《星际穿越》、《源代码》等电影，另外有个人也都喜欢这些电影，而且他还喜欢《钢铁侠》，则很有可能你也喜欢《钢铁侠》这部电影。</p>
 <p>所以说，当一个用户A需要个性化推荐时，可以先找到和他兴趣相似的用户群体 G，然后把 G 喜欢的、并且 A 没有听说过的物品推荐给 A，这就是基于用户的系统过滤算法。</p>
 <p>协同过滤：所谓协同就是大家一起帮助你，然后后面跟个过滤，就是大家商量好以后才把结果告诉你，不然信息量太大了。</p>
 <h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p> 根据上面的描述，我么可以将基于用户的协同过滤算法拆分为两个步骤：</p>
 <pre><code>1. 找到与目标用户兴趣相似的用户集合
 2. 找到这个集合中用户喜欢的、并且目标用户没有听说过的物品推荐给目标用户
-</code></pre><h3 id="发现兴趣相似的用户"><a href="#发现兴趣相似的用户" class="headerlink" title="发现兴趣相似的用户"></a>发现兴趣相似的用户</h3><pre><code>通常用 **Jaccard** 公式或者**余弦相似度**计算两个用户之间的相似度。设 N(u) 为用户 u 喜欢的物品集合，N(v) 为用户 v 喜欢的物品集合，那么 u 和 v 的相似度是多少呢：
-
-Jaccard公式：
-
-![Jaccard公式](基于用户的协同过滤推荐算法原理和实现\小Q截图-20170730232605.png)
-
-余弦相似度：
-
-![余弦相似度](基于用户的协同过滤推荐算法原理和实现\小Q截图-20170730233206.png)
-
-假设目前有4个用户： A、B、C、D；共有5个物品：a、b、c、d、e。用户和物品的关系（用户喜欢物品）如下图所示：
-
-![用户与物品的关系](基于用户的协同过滤推荐算法原理和实现\IMG_2391.jpg)
-
-如何一下子计算所有用户之间的相似度呢？为计算方便，通常首先需要建立“物品—用户”的倒排表，如下图所示：
-
-![物品-用户倒排表](基于用户的协同过滤推荐算法原理和实现\IMG_2392.jpg)
-
-然后对于每个物品，喜欢他的用户，两两之间相同物品加1。例如喜欢物品 a 的用户有 A 和 B，那么在矩阵中他们两两加1。如下图所示：
-
-![矩阵1-分子部分](基于用户的协同过滤推荐算法原理和实现\01D6C77983F157E510F05679E273429B.png)
-
-计算用户两两之间的相似度，上面的矩阵仅仅代表的是公式的分子部分。以 **余弦相似度** 为例，对上图进行进一步计算:
-
-![用户相似度](基于用户的协同过滤推荐算法原理和实现\IMG_2394.jpg)
-
-到此，计算用户相似度就大功告成，可以很直观的找到与目标用户兴趣较相似的用户
-</code></pre><h3 id="推荐物品"><a href="#推荐物品" class="headerlink" title="推荐物品"></a>推荐物品</h3><pre><code>首先需要从矩阵中找出与目标用户 u 最相似的 K 个用户，用集合 S(u, K) 表示，将 S 中用户喜欢的物品全部提取出来，并去除 u 已经喜欢的物品。对于每个候选物品 i ，用户 u 对它感兴趣的程度用如下公式计算：
-
-![推荐商品公式](基于用户的协同过滤推荐算法原理和实现\小Q截图-20170731000623.png)
-
-其中 rvi 表示用户 v 对 i 的喜欢程度，在本例中都是为 1，在一些需要用户给予评分的推荐系统中，则要代入用户评分。
-
-举个例子，假设我们要给 A 推荐物品，选取 K = 3 个相似用户，相似用户则是：B、C、D，那么他们喜欢过并且 A 没有喜欢过的物品有：c、e，那么分别计算 p(A, c) 和 p(A, e)：
-
-![求推荐率](基于用户的协同过滤推荐算法原理和实现\小Q截图-20170731001156.png)
-
-看样子用户 A 对 c 和 e 的喜欢程度可能是一样的，在真实的推荐系统中，只要按得分排序，取前几个物品就可以了。
-</code></pre><h2 id="实战准备"><a href="#实战准备" class="headerlink" title="实战准备"></a>实战准备</h2><p>我参考的两篇文章的实现都是下载了  <a href="https://grouplens.org/datasets/movielens" target="_blank" rel="external">movieLens</a> 的数据集，然后使用python进行数据的处理，我下载了源码，运行以后发现，不知道该怎么切换用户和产品，我现在水平还不够，对于那个数据集的一些概念不太懂，我就自己创建了几个数据，使用简单的小程序获取的推荐产品，结果和上面的分析一样，其实就是照着前面的步骤一步一步编写的。</p>
+</code></pre><h3 id="发现兴趣相似的用户"><a href="#发现兴趣相似的用户" class="headerlink" title="发现兴趣相似的用户"></a>发现兴趣相似的用户</h3><p>通常用 <strong>Jaccard</strong> 公式或者<strong>余弦相似度</strong>计算两个用户之间的相似度。设 N(u) 为用户 u 喜欢的物品集合，N(v) 为用户 v 喜欢的物品集合，那么 u 和 v 的相似度是多少呢：</p>
+<p>Jaccard公式：</p>
+<p><img src="/2017/07/30/10.基于用户的协同过滤推荐算法原理和实现/基于用户的协同过滤推荐算法原理和实现/小Q截图-20170730232605.png" alt="Jaccard公式"></p>
+<p>余弦相似度：</p>
+<p><img src="/2017/07/30/10.基于用户的协同过滤推荐算法原理和实现/基于用户的协同过滤推荐算法原理和实现/小Q截图-20170730233206.png" alt="余弦相似度"></p>
+<p>假设目前有4个用户： A、B、C、D；共有5个物品：a、b、c、d、e。用户和物品的关系（用户喜欢物品）如下图所示：</p>
+<p><img src="/2017/07/30/10.基于用户的协同过滤推荐算法原理和实现/基于用户的协同过滤推荐算法原理和实现/IMG_2391.jpg" alt="用户与物品的关系"></p>
+<p>如何一下子计算所有用户之间的相似度呢？为计算方便，通常首先需要建立“物品—用户”的倒排表，如下图所示：</p>
+<p><img src="/2017/07/30/10.基于用户的协同过滤推荐算法原理和实现/基于用户的协同过滤推荐算法原理和实现/IMG_2392.jpg" alt="物品-用户倒排表"></p>
+<p>然后对于每个物品，喜欢他的用户，两两之间相同物品加1。例如喜欢物品 a 的用户有 A 和 B，那么在矩阵中他们两两加1。如下图所示：</p>
+<p><img src="/2017/07/30/10.基于用户的协同过滤推荐算法原理和实现/基于用户的协同过滤推荐算法原理和实现/01D6C77983F157E510F05679E273429B.png" alt="矩阵1-分子部分"></p>
+<p>计算用户两两之间的相似度，上面的矩阵仅仅代表的是公式的分子部分。以 <strong>余弦相似度</strong> 为例，对上图进行进一步计算:</p>
+<p><img src="/2017/07/30/10.基于用户的协同过滤推荐算法原理和实现/基于用户的协同过滤推荐算法原理和实现/IMG_2394.jpg" alt="用户相似度"></p>
+<p>到此，计算用户相似度就大功告成，可以很直观的找到与目标用户兴趣较相似的用户</p>
+<h3 id="推荐物品"><a href="#推荐物品" class="headerlink" title="推荐物品"></a>推荐物品</h3><p>首先需要从矩阵中找出与目标用户 u 最相似的 K 个用户，用集合 S(u, K) 表示，将 S 中用户喜欢的物品全部提取出来，并去除 u 已经喜欢的物品。对于每个候选物品 i ，用户 u 对它感兴趣的程度用如下公式计算：</p>
+<p><img src="/2017/07/30/10.基于用户的协同过滤推荐算法原理和实现/基于用户的协同过滤推荐算法原理和实现/小Q截图-20170731000623.png" alt="推荐商品公式"></p>
+<p>其中 rvi 表示用户 v 对 i 的喜欢程度，在本例中都是为 1，在一些需要用户给予评分的推荐系统中，则要代入用户评分。</p>
+<p>举个例子，假设我们要给 A 推荐物品，选取 K = 3 个相似用户，相似用户则是：B、C、D，那么他们喜欢过并且 A 没有喜欢过的物品有：c、e，那么分别计算 p(A, c) 和 p(A, e)：</p>
+<p><img src="/2017/07/30/10.基于用户的协同过滤推荐算法原理和实现/基于用户的协同过滤推荐算法原理和实现/小Q截图-20170731001156.png" alt="求推荐率"></p>
+<p>看样子用户 A 对 c 和 e 的喜欢程度可能是一样的，在真实的推荐系统中，只要按得分排序，取前几个物品就可以了。</p>
+<h2 id="实战准备"><a href="#实战准备" class="headerlink" title="实战准备"></a>实战准备</h2><p>我参考的两篇文章的实现都是下载了  <a href="https://grouplens.org/datasets/movielens" target="_blank" rel="external">movieLens</a> 的数据集，然后使用python进行数据的处理，我下载了源码，运行以后发现，不知道该怎么切换用户和产品，我现在水平还不够，对于那个数据集的一些概念不太懂，我就自己创建了几个数据，使用简单的小程序获取的推荐产品，结果和上面的分析一样，其实就是照着前面的步骤一步一步编写的。</p>
 <p>水平太次，只能实用一些简单的数据来理解这个算法，大神勿喷。</p>
 <h2 id="实战开始"><a href="#实战开始" class="headerlink" title="实战开始"></a>实战开始</h2><h4 id="1-给出用户集"><a href="#1-给出用户集" class="headerlink" title="1. 给出用户集"></a>1. 给出用户集</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">users = [[<span class="string">'macbook'</span>, <span class="string">'iphone'</span>, <span class="string">'beats'</span>, <span class="string">'keyboard'</span>, <span class="string">'game'</span>, <span class="string">'snack'</span>], </div><div class="line">		 [<span class="string">'macbook'</span>, <span class="string">'book'</span>, <span class="string">'beats'</span>, <span class="string">'snack'</span>, <span class="string">'cloth'</span>],</div><div class="line">		 [<span class="string">'book'</span>, <span class="string">'beats'</span>, <span class="string">'iphone'</span>],</div><div class="line">		 [<span class="string">'cloth'</span>, <span class="string">'bag'</span>, <span class="string">'cosmetics'</span>, <span class="string">'snack'</span>], </div><div class="line">		 [<span class="string">'iphone'</span>, <span class="string">'game'</span>, <span class="string">'macbook'</span>, <span class="string">'beats'</span>, <span class="string">'cloth'</span>],</div><div class="line">		 [<span class="string">'iphone'</span>, <span class="string">'beats'</span>, <span class="string">'keyboard'</span>, <span class="string">'movie'</span>],</div><div class="line">		 [<span class="string">'movie'</span>, <span class="string">'game'</span>, <span class="string">'bag'</span>, <span class="string">'snack'</span>]]</div></pre></td></tr></table></figure>
 <h4 id="2-相似余弦距离公式"><a href="#2-相似余弦距离公式" class="headerlink" title="2. 相似余弦距离公式"></a>2. 相似余弦距离公式</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 相似余弦距离（使用余弦相似度公式）</span></div><div class="line"><span class="comment"># 输入：用户1， 用户2</span></div><div class="line"><span class="comment"># 输出： 两个用户的余弦距离</span></div><div class="line"> </div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">calcSimlaryCosDist</span><span class="params">(user1, user2)</span>:</span></div><div class="line">	molecule = <span class="number">0</span></div><div class="line">	<span class="keyword">for</span> good_1 <span class="keyword">in</span> user1:</div><div class="line">		<span class="keyword">for</span> good_2 <span class="keyword">in</span> user2:</div><div class="line">			<span class="keyword">if</span> good_1 == good_2:</div><div class="line">				molecule += <span class="number">1</span></div><div class="line"></div><div class="line">	deno = len(user1) * len(user2)</div><div class="line">	deno = math.sqrt(deno)</div><div class="line">	<span class="keyword">return</span> molecule / deno</div></pre></td></tr></table></figure>
