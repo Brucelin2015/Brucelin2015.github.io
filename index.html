@@ -247,6 +247,292 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/22/13.IOS-取消按钮高亮状态/IOS-按钮的高亮/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="布鲁斯·林">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="BruceLin">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/22/13.IOS-取消按钮高亮状态/IOS-按钮的高亮/" itemprop="url">IOS-取消按钮的点击高亮变灰的效果</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-22T23:50:59+08:00">
+                2017-08-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IOS小技巧/" itemprop="url" rel="index">
+                    <span itemprop="name">IOS小技巧</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>IOS系统提供的按钮点击后会自带高亮并且文本会变灰色，这在某些场景不美观，偶然间知道了两种取消按钮的高亮状态的方法，分享一下。</p>
+<h2 id="一、UIButtonType"><a href="#一、UIButtonType" class="headerlink" title="一、UIButtonType"></a>一、UIButtonType</h2><p>学了一年多，今天才突然发现 <strong>UIButtonTypeCustom</strong> 和 <strong>UIButtonTypeSystem</strong> 两种类型的按钮不一样，以前总感觉没什么区别。</p>
+<p><img src="/2017/08/22/13.IOS-取消按钮高亮状态/IOS-按钮的高亮/1.png" alt="UIButtonTypeSystem" title="UIButtonTypeSystem"></p>
+<p>UIButtonSystem(文档: standard system button),系统提供的按钮，不做任何操作，创建出来后，蓝色字体，点击会有高亮变灰的效果。</p>
+<p><img src="/2017/08/22/13.IOS-取消按钮高亮状态/IOS-按钮的高亮/2.png" alt="UIButtonTypeCustom" title="UIButtonTypeCustom"></p>
+<p>UIButtonTypeCustom(文档: no button type),这种类型的按钮创建出来就是白色字体，点击后没有高亮状态。</p>
+<p>结论： 如果想要 <strong>没有高亮状态</strong> 的按钮，将按钮的类型改为UIButtonTypeCustom</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="type">UIButton</span> *btn = [<span class="type">UIButton</span> buttonWithType:<span class="type">UIButtonTypeCustom</span>];</div></pre></td></tr></table></figure>
+<h2 id="二、重写按钮的-setHighlighted-方法"><a href="#二、重写按钮的-setHighlighted-方法" class="headerlink" title="二、重写按钮的 setHighlighted: 方法"></a>二、重写按钮的 setHighlighted: 方法</h2><p>可以继承至 UIButton, 重写按钮的 setHighlighted: 方法，如果没有特殊的需求，可以不做任何操作。</p>
+<p>当点击按钮不松开的时候，会调用一次 <strong>setHighlighted:</strong> 方法，当你松开按钮的时候，还会调用</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">#<span class="keyword">import</span> "CLButton.h"</div><div class="line"></div><div class="line">@implementation <span class="type">CLButton</span></div><div class="line"></div><div class="line">- (void)setHighlighted:(<span class="type">BOOL</span>)highlighted &#123;</div><div class="line">    </div><div class="line">&#125;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<p>因为项目里面有这种需求，所以网上查了一些资料，但有的没有用，因此把相对正确的答案给大家分享，还有其他的方法，我没有去深究。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/22/14.Hexo无痛使用图片/Hexo无痛使用图片/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="布鲁斯·林">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="BruceLin">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/22/14.Hexo无痛使用图片/Hexo无痛使用图片/" itemprop="url">Hexo-无痛使用照片</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-22T23:50:59+08:00">
+                2017-08-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Hexo/" itemprop="url" rel="index">
+                    <span itemprop="name">Hexo</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>刚开始用Hexo的时候，图片的路径是一个很大的问题，每次都要去找图片的一大串路径，很是麻烦。在网上看到了一个很棒的解决方案，分享给刚入Hexo的</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p><a href="https://github.com/CodeFalling/hexo-asset-image" target="_blank" rel="external">https://github.com/CodeFalling/hexo-asset-image</a></p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>首先确认 <strong>_config.yml</strong> 中有 <strong>post_asset_folder:true</strong> 。</p>
+<p>在 hexo 目录，执行</p>
+<p><code>npm install https://github.com/CodeFalling/hexo-asset-image --save</code></p>
+<p><img src="/2017/08/22/14.Hexo无痛使用图片/Hexo无痛使用图片/1.png" alt=""></p>
+<p>对照着图片上的目录结构(照片目录名和文章名一致)，然后使用 <code>![log](5.自定义log/2.png)</code> 就可以插入图片了</p>
+<p>参考：<a href="http://www.tuicool.com/articles/umEBVfI" target="_blank" rel="external">http://www.tuicool.com/articles/umEBVfI</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/03/12.破解VIP会员合集/破解VIP会员合集/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1366,282 +1652,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/29/4.Sublime Text 3- javaScript编译器设置/4.Sublime Text 3- javaScript编译器设置/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="布鲁斯·林">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="BruceLin">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/07/29/4.Sublime Text 3- javaScript编译器设置/4.Sublime Text 3- javaScript编译器设置/" itemprop="url">Sublime Text 3-JavaScript编译器</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-29T12:05:50+08:00">
-                2017-07-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/sublime-Text-3/" itemprop="url" rel="index">
-                    <span itemprop="name">sublime-Text-3</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="1-前奏"><a href="#1-前奏" class="headerlink" title="1. 前奏"></a>1. 前奏</h2><p>在学习js的过程中，使用了传说中的神编辑器—-sublime Text，以前配置了一部分，今天又配置了一些方便使用的插件，这个编辑器真是666啊，明明有专门编辑JavaScript的我不用，偏偏来这找罪受，没办法，谁让咱爱折腾呢。<br></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/07/29/4.Sublime Text 3- javaScript编译器设置/4.Sublime Text 3- javaScript编译器设置/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/29/3.transform及问题/3.transform及问题/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="布鲁斯·林">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="BruceLin">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/07/29/3.transform及问题/3.transform及问题/" itemprop="url">IOS动画基础之transform及遇到的问题</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-29T12:05:50+08:00">
-                2017-07-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Swift笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">Swift笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="1-transform简介"><a href="#1-transform简介" class="headerlink" title="1. transform简介"></a>1. transform简介</h3><p>UIView的一个非常重要的属性—transform，该属性继承于CGAffineTransform，CG实际上是CoreGraphics框架的缩写，该属性是核心绘图与UIView之间的桥梁，借助于这一属性可以完成很多高级的动画效果。<br></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/07/29/3.transform及问题/3.transform及问题/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1691,7 +1701,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1702,7 +1712,7 @@
             
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
@@ -1713,7 +1723,7 @@
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>
