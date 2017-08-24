@@ -247,6 +247,177 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/25/15.IOS-GCD异步操作/GCD多个异步操作执行完毕更新数据/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="布鲁斯·林">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="BruceLin">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/25/15.IOS-GCD异步操作/GCD多个异步操作执行完毕更新数据/" itemprop="url">GCD多个异步操作执行完毕更新数据</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-25T02:06:01+08:00">
+                2017-08-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IOS/" itemprop="url" rel="index">
+                    <span itemprop="name">IOS</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/IOS/多线程和网络/" itemprop="url" rel="index">
+                    <span itemprop="name">多线程和网络</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>今天做项目的时候，有个功能需要等待多个网络请求都执行完毕后再整合起来继续操作。开始，还以为挺简单的，只需要使用GCD-Group就能轻松完成，做着做着懵逼了，上网查资料，很多无济于事。看着书，查了很多资料，终于解决了。</p>
+<h2 id="普通的GCD-Group"><a href="#普通的GCD-Group" class="headerlink" title="普通的GCD-Group"></a>普通的GCD-Group</h2><p>网上的资料大部分和书上的类似，都是使用Group来实现的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">// 创建一个队列</div><div class="line">dispatch_queue_t queue = dispatch_get_global_queue(0, 0);</div><div class="line">dispatch_group_t group = dispatch_group_create();</div><div class="line">    </div><div class="line">// 向队列中添加操作</div><div class="line">dispatch_group_async(group, queue, ^&#123;</div><div class="line">    for (int i = 0; i &lt; 5; i++) &#123;</div><div class="line">        NSLog(@&quot;------------%d&quot;, i);</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line">dispatch_group_async(group, queue, ^&#123;</div><div class="line">    for (int i = 0; i &lt; 5; i++) &#123;</div><div class="line">        NSLog(@&quot;+++++%d&quot;, i);</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line">dispatch_group_async(group, queue, ^&#123;</div><div class="line">    for (int i = 0; i &lt; 5; i++) &#123;</div><div class="line">        NSLog(@&quot;············%d&quot;, i);</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line">    </div><div class="line">//使用Dispatch Group监视上面处理执行的结束，一旦上面的所有处理执行完毕，就可将下面的操作追加到queue中 </div><div class="line">dispatch_group_notify(group, queue, ^&#123;</div><div class="line">    NSLog(@&quot;DONE!&quot;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p><img src="/2017/08/25/15.IOS-GCD异步操作/GCD多个异步操作执行完毕更新数据/1.png" alt="&quot;结果-1&quot;" title="结果"></p>
+<p>向Global Dispatch Queue即 Concurrent Dispatch Queue 追加处理，多个线程并发执行。执行顺序不定，能够确定的是  <strong>Done！</strong> 一定最后处理。</p>
+<p>网上的大部分信息类似上面这样，但是他们都忽略了一个很重要的问题：<strong>网络请求也是异步的。</strong> </p>
+<p>那么，问题就来了：网络请求是异步的，也就是说把上面三个for循环替换成网络请求的代码，因为请求异步，所以不等响应到来，直接就执行到 <strong>DONE!</strong> 语句。</p>
+<p>接下来，我们试验一下。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">// 把上面的for循环封装在另一个异步线程里面</div><div class="line">dispatch_group_async(group, queue, ^&#123;</div><div class="line">        dispatch_async(queue, ^&#123;</div><div class="line">            for (int i = 0; i &lt; 5; i++) &#123;</div><div class="line">                NSLog(@&quot;············%d&quot;, i);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;);</div></pre></td></tr></table></figure>
+<p><img src="/2017/08/25/15.IOS-GCD异步操作/GCD多个异步操作执行完毕更新数据/2.png" alt="&quot;结果-2&quot;" title="结果-2"></p>
+<p>这个时候 <strong>DONE!</strong> 的执行就没有顺序了。因为是异步的，所以直接就执行下面的操作了，里面的操作在各自的线程里慢慢执行， Dispatch Group 监视的时候，三个都是异步操作，所以Group就认为你们都已经执行完毕了，才执行最后的操作。</p>
+<p>说了这么多，大家也差不多理解原理了，那么，重点开始。</p>
+<h2 id="GCD-信号量-重点"><a href="#GCD-信号量-重点" class="headerlink" title="GCD+信号量(重点)"></a>GCD+信号量(重点)</h2><p>不知道大家对信号量的概念清楚多少，大学学习操作系统的时候肯定接触过信号量。</p>
+<p>信号量是多线程编程中的计数类型信号。所谓信号，类似于过马路时常用的手旗。可以通过时举起手旗，不可通过时放下手旗。IOS的信号量为 <strong>Dispatch Semaphore</strong>, 使用计数来实现，计数为  <strong>0</strong>  的时候等待， 计数为  <strong>1</strong>  或者大于的时候，减去 1 而不等待。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">//上面生成了一个信号量，计数值初始化为 1 </div><div class="line">dispatch_semaphore_t semaphore = dispatch_semaphore_create(1);</div><div class="line"></div><div class="line">// wait函数等待信号量的计数值大于等于1.</div><div class="line">// 当大于等于1时，对该计数进行减法并从 wait 函数返回</div><div class="line">// 减 1 的操作是自动的，返回的是long类型</div><div class="line">// DISPATCH_TIME_FOREVER 等待时间，dispatch_time_t类型，此为永远等待</div><div class="line">dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);</div><div class="line"></div><div class="line">// 经过 wait 函数返回 0 处理结束后，需要使用signal方法将信号量的计数值 加 1</div><div class="line">dispatch_semaphore_signal(semaphore);</div></pre></td></tr></table></figure>
+<p>我个人的理解就是：因为信号量初始化为 1 ，加到队列中的操作，都开始等待信号量，A先抢到信号量，A先执行操作，其他人继续等待，就算是异步操作，A wait 到信号量后，信号量变为了 0， 其他人就不能操作信号量了，直到 A 把信号量释放出来即(signal),其他人再继续操作。（个人理解就是这样，不对之处请指出来）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line">//信号量测试</div><div class="line">dispatch_queue_t queue = dispatch_get_global_queue(0, 0);</div><div class="line">    </div><div class="line">dispatch_group_t group = dispatch_group_create();</div><div class="line">dispatch_semaphore_t semaphore = dispatch_semaphore_create(1);</div><div class="line"></div><div class="line">dispatch_group_async(group, queue, ^&#123;</div><div class="line">    </div><div class="line">    //获取信号量</div><div class="line">    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);</div><div class="line">    </div><div class="line">    dispatch_async(queue, ^&#123;</div><div class="line">        for (int i = 0; i &lt; 5; i++) &#123;</div><div class="line">            NSLog(@&quot;=====%d&quot;, i);</div><div class="line">        &#125;</div><div class="line">        // 释放信号量</div><div class="line">        dispatch_semaphore_signal(semaphore);</div><div class="line">    &#125;);</div><div class="line">&#125;);   </div><div class="line">dispatch_group_async(group, queue, ^&#123;</div><div class="line">    </div><div class="line">    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);</div><div class="line">    </div><div class="line">    dispatch_async(queue, ^&#123;</div><div class="line">        for (int i = 0; i &lt; 5; i++) &#123;</div><div class="line">            NSLog(@&quot;+++++++++++++++%d&quot;, i);</div><div class="line">        &#125;</div><div class="line">        dispatch_semaphore_signal(semaphore);</div><div class="line">    &#125;);</div><div class="line">&#125;); </div><div class="line">dispatch_group_async(group, queue, ^&#123;</div><div class="line">    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);</div><div class="line">    dispatch_async(queue, ^&#123;</div><div class="line">        for (int i = 0; i &lt; 5; i++) &#123;</div><div class="line">            NSLog(@&quot;----%d&quot;, i);</div><div class="line">        &#125;</div><div class="line">        dispatch_semaphore_signal(semaphore);</div><div class="line">    &#125;);</div><div class="line">&#125;);</div><div class="line">    </div><div class="line">dispatch_group_notify(group, queue, ^&#123;</div><div class="line">    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);</div><div class="line">    dispatch_semaphore_signal(semaphore);</div><div class="line">    NSLog(@&quot;Done&quot;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p><img src="/2017/08/25/15.IOS-GCD异步操作/GCD多个异步操作执行完毕更新数据/3.png" alt="结果-3" title="结果-3"></p>
+<p>上面这个就模仿了网络请求，因为网络请求大家测试的时候不太方便，所以举个小栗子。</p>
+<h2 id="网络请求"><a href="#网络请求" class="headerlink" title="网络请求"></a>网络请求</h2><p>模拟三个请求都完毕后，在主线程刷新UI数据， <strong>wait</strong> 信号量需要在没有发送请求前执行，成功接收到响应后，再 <strong>signal</strong> 信号量，让其他线程也有机会执行操作。</p>
+<p>使用 dispatch group 可以确保前三个请求执行完毕后，再通知 <strong>notify</strong> 执行数据的整合，最后刷新UI的话，需要在主线程刷新</p>
+<p>关于错误这一点的处理，还没有认真考虑，这么晚了，以后有时间再研究吧，应该不是太难，出现错误的时候，把信号量也 signal 出去，让其他操作处理，如果各个操作之间联系密切的话，就只有再好好考虑了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line">dispatch_semaphore_t semaphore = dispatch_semaphore_create(1);</div><div class="line">dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);</div><div class="line">dispatch_group_t group = dispatch_group_create();</div><div class="line"> </div><div class="line">// 请求 1</div><div class="line">dispatch_group_async(group, queue, ^&#123;</div><div class="line">	</div><div class="line">    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);</div><div class="line">    </div><div class="line">    NSDictionary *paraDict = @&#123;@&quot;token&quot;: self.token&#125;;</div><div class="line">    </div><div class="line">    [AFNTool get:url params:para success:^(id responseObject)&#123;</div><div class="line"></div><div class="line">        dispatch_semaphore_signal(semaphore);</div><div class="line"></div><div class="line">    &#125; failure:^(NSError *error) &#123;</div><div class="line">        NSLog(@&quot;%@&quot;, error);</div><div class="line">    &#125;];</div><div class="line">&#125;);</div><div class="line">// 请求 2</div><div class="line">dispatch_group_async(group, queue, ^&#123;</div><div class="line">	</div><div class="line">    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);</div><div class="line">    </div><div class="line">    NSDictionary *paraDict = @&#123;@&quot;token&quot;: self.token&#125;;</div><div class="line">    </div><div class="line">    [AFNTool get:url params:para success:^(id responseObject)&#123;</div><div class="line"></div><div class="line">        dispatch_semaphore_signal(semaphore);</div><div class="line"></div><div class="line">    &#125; failure:^(NSError *error) &#123;</div><div class="line">        NSLog(@&quot;%@&quot;, error);</div><div class="line">    &#125;];</div><div class="line">&#125;);</div><div class="line">// 请求 3</div><div class="line">dispatch_group_async(group, queue, ^&#123;</div><div class="line">	</div><div class="line">    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);</div><div class="line">    </div><div class="line">    NSDictionary *paraDict = @&#123;@&quot;token&quot;: self.token&#125;;</div><div class="line">    </div><div class="line">    [AFNTool get:url params:para success:^(id responseObject)&#123;</div><div class="line">    </div><div class="line">        dispatch_semaphore_signal(semaphore);</div><div class="line"></div><div class="line">    &#125; failure:^(NSError *error) &#123;</div><div class="line">        NSLog(@&quot;%@&quot;, error);</div><div class="line">    &#125;];</div><div class="line">&#125;);</div><div class="line"></div><div class="line"></div><div class="line">dispatch_group_notify(group, queue, ^&#123;         </div><div class="line">    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);</div><div class="line">    dispatch_semaphore_signal(semaphore);</div><div class="line">    </div><div class="line">    dispatch_async(dispatch_get_main_queue(), ^&#123;</div><div class="line">        NSLog(@&quot;我在主线程里面更新UI&quot;);</div><div class="line">        [self.tableView reloadData];</div><div class="line">    &#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>参考：</p>
+<ol>
+<li>Objective-C高级编程–IOS与OSX多线程和内存管理(人民邮电出版社)</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/22/13.IOS-取消按钮高亮状态/IOS-按钮的高亮/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1505,145 +1676,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/29/5.自定义log/5.自定义log/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="布鲁斯·林">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="BruceLin">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/07/29/5.自定义log/5.自定义log/" itemprop="url">Swift自定义输出信息log</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-29T12:05:50+08:00">
-                2017-07-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Swift笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">Swift笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="自定义log"><a href="#自定义log" class="headerlink" title="自定义log"></a>自定义log</h3><p>今天在学习swift的时候，发现 print() 函数打印出来的信息真的很少，￼<img src="/2017/07/29/5.自定义log/5.自定义log/1.png" alt="print打印"></p>
-<p>这对于我们调试很不方便，看视频的时候教了一个方法来自定义log，记下来，以后省的忘记了。<br></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/07/29/5.自定义log/5.自定义log/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1693,7 +1725,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1704,7 +1736,7 @@
             
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
@@ -1715,7 +1747,7 @@
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">24</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>
