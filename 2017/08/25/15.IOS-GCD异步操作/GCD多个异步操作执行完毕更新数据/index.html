@@ -93,21 +93,21 @@
 
 
 
-<meta name="description" content="起因今天做项目的时候，有个功能需要等待多个网络请求都执行完毕后再整合起来继续操作。开始，还以为挺简单的，只需要使用GCD-Group就能轻松完成，做着做着懵逼了，上网查资料，很多无济于事。看着书，查了很多资料，终于解决了。 普通的GCD-Group网上的资料大部分和书上的类似，都是使用Group来实现的。 12345678910111213141516171819202122232425// 创建">
+<meta name="description" content="起因今天做项目的时候，有个功能需要等待多个网络请求都执行完毕后再整合起来继续操作。开始，还以为挺简单的，只需要使用GCD-Group就能轻松完成，做着做着懵逼了，上网查资料，很多无济于事。看着书，查了很多资料，终于解决了。 普通的GCD-Group网上的资料大部分和书上的类似，都是使用Group来实现的。">
 <meta name="keywords" content="IOS,GCD,多线程和网络">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GCD多个异步操作执行完毕更新数据">
 <meta property="og:url" content="http://yoursite.com/2017/08/25/15.IOS-GCD异步操作/GCD多个异步操作执行完毕更新数据/index.html">
 <meta property="og:site_name" content="BruceLin">
-<meta property="og:description" content="起因今天做项目的时候，有个功能需要等待多个网络请求都执行完毕后再整合起来继续操作。开始，还以为挺简单的，只需要使用GCD-Group就能轻松完成，做着做着懵逼了，上网查资料，很多无济于事。看着书，查了很多资料，终于解决了。 普通的GCD-Group网上的资料大部分和书上的类似，都是使用Group来实现的。 12345678910111213141516171819202122232425// 创建">
+<meta property="og:description" content="起因今天做项目的时候，有个功能需要等待多个网络请求都执行完毕后再整合起来继续操作。开始，还以为挺简单的，只需要使用GCD-Group就能轻松完成，做着做着懵逼了，上网查资料，很多无济于事。看着书，查了很多资料，终于解决了。 普通的GCD-Group网上的资料大部分和书上的类似，都是使用Group来实现的。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2017/08/25/15.IOS-GCD异步操作/GCD多个异步操作执行完毕更新数据/1.png">
 <meta property="og:image" content="http://yoursite.com/2017/08/25/15.IOS-GCD异步操作/GCD多个异步操作执行完毕更新数据/2.png">
 <meta property="og:image" content="http://yoursite.com/2017/08/25/15.IOS-GCD异步操作/GCD多个异步操作执行完毕更新数据/3.png">
-<meta property="og:updated_time" content="2017-08-24T18:08:45.581Z">
+<meta property="og:updated_time" content="2017-08-24T18:10:47.927Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GCD多个异步操作执行完毕更新数据">
-<meta name="twitter:description" content="起因今天做项目的时候，有个功能需要等待多个网络请求都执行完毕后再整合起来继续操作。开始，还以为挺简单的，只需要使用GCD-Group就能轻松完成，做着做着懵逼了，上网查资料，很多无济于事。看着书，查了很多资料，终于解决了。 普通的GCD-Group网上的资料大部分和书上的类似，都是使用Group来实现的。 12345678910111213141516171819202122232425// 创建">
+<meta name="twitter:description" content="起因今天做项目的时候，有个功能需要等待多个网络请求都执行完毕后再整合起来继续操作。开始，还以为挺简单的，只需要使用GCD-Group就能轻松完成，做着做着懵逼了，上网查资料，很多无济于事。看着书，查了很多资料，终于解决了。 普通的GCD-Group网上的资料大部分和书上的类似，都是使用Group来实现的。">
 <meta name="twitter:image" content="http://yoursite.com/2017/08/25/15.IOS-GCD异步操作/GCD多个异步操作执行完毕更新数据/1.png">
 
 
@@ -350,6 +350,7 @@
       
         <h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>今天做项目的时候，有个功能需要等待多个网络请求都执行完毕后再整合起来继续操作。开始，还以为挺简单的，只需要使用GCD-Group就能轻松完成，做着做着懵逼了，上网查资料，很多无济于事。看着书，查了很多资料，终于解决了。</p>
 <h2 id="普通的GCD-Group"><a href="#普通的GCD-Group" class="headerlink" title="普通的GCD-Group"></a>普通的GCD-Group</h2><p>网上的资料大部分和书上的类似，都是使用Group来实现的。</p>
+<a id="more"></a>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">// 创建一个队列</div><div class="line">dispatch_queue_t queue = dispatch_get_global_queue(0, 0);</div><div class="line">dispatch_group_t group = dispatch_group_create();</div><div class="line">    </div><div class="line">// 向队列中添加操作</div><div class="line">dispatch_group_async(group, queue, ^&#123;</div><div class="line">    for (int i = 0; i &lt; 5; i++) &#123;</div><div class="line">        NSLog(@&quot;------------%d&quot;, i);</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line">dispatch_group_async(group, queue, ^&#123;</div><div class="line">    for (int i = 0; i &lt; 5; i++) &#123;</div><div class="line">        NSLog(@&quot;+++++%d&quot;, i);</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line">dispatch_group_async(group, queue, ^&#123;</div><div class="line">    for (int i = 0; i &lt; 5; i++) &#123;</div><div class="line">        NSLog(@&quot;············%d&quot;, i);</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line">    </div><div class="line">//使用Dispatch Group监视上面处理执行的结束，一旦上面的所有处理执行完毕，就可将下面的操作追加到queue中 </div><div class="line">dispatch_group_notify(group, queue, ^&#123;</div><div class="line">    NSLog(@&quot;DONE!&quot;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 <p><img src="/2017/08/25/15.IOS-GCD异步操作/GCD多个异步操作执行完毕更新数据/1.png" alt="&quot;结果-1&quot;" title="结果"></p>
 <p>向Global Dispatch Queue即 Concurrent Dispatch Queue 追加处理，多个线程并发执行。执行顺序不定，能够确定的是  <strong>Done！</strong> 一定最后处理。</p>
